@@ -45,14 +45,14 @@
 
 					this._oStateMachine.configure(this.mStates.Playing)
 						.onEntry(function() {debugger})
-						.permit(this.mTrigger.Stop, this.mStates.Stopped),
+						.permit(this.mTrigger.Stop, this.mStates.Stopped)
 						.permit(this.mTrigger.Pause, this.mStates.Paused);
 
 					this._oStateMachine.configure(this.mStates.Paused)
-						.permit(this.mTrigger.Play, this.mStates.Playing),
+						.permit(this.mTrigger.Play, this.mStates.Playing)
 						.permit(this.mTrigger.Stop, this.mStates.Stopped);
 
-					this._oStateMachine.Fire(this.mTrigger.Play);
+
 		    },
 		    afterEach: function() {
 
@@ -68,10 +68,8 @@
 		});
 
 
-		QUnit.test("adsf", 1, function(assert) {
-
-
-			assert.ok(this._oStateMachine.test() === false);
+		QUnit.test("Fire state", 1, function(assert) {
+			this._oStateMachine.Fire(this.mTrigger.Play);
 		});
 
 
