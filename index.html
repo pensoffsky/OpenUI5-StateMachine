@@ -44,7 +44,6 @@
 						.permit(this._mTrigger.Play, this._mStates.Playing);
 
 					this._oStateMachine.configure(this._mStates.Playing)
-						.onEntry(function() {debugger})
 						.permit(this._mTrigger.Stop, this._mStates.Stopped)
 						.permit(this._mTrigger.Pause, this._mStates.Paused);
 
@@ -73,28 +72,28 @@
 			assert.ok(sState == this._mStates.Stopped);
 		});
 
-		QUnit.test("Fire state", 1, function(assert) {
-			this._oStateMachine.Fire(this._mTrigger.Play);
+		QUnit.test("Fire state and check resulting state", 1, function(assert) {
+			this._oStateMachine.fire(this._mTrigger.Play);
 			var sState = this._oStateMachine.getState();
 			assert.ok(sState === this._mStates.Playing);
 		});
 
-		QUnit.test("Fire state", 1, function(assert) {
+		QUnit.test("Fire state and check onEntry call", 1, function(assert) {
 			this._oStateMachine.configure(this._mStates.Playing)
 				.onEntry(function() {
 					assert.ok(true, "playing onEntry called");
 				});
 
-			this._oStateMachine.Fire(this._mTrigger.Play);
+			this._oStateMachine.fire(this._mTrigger.Play);
 		});
 
-		QUnit.test("Fire state", 1, function(assert) {
+		QUnit.test("Fire state and check beforeExit call", 1, function(assert) {
 			this._oStateMachine.configure(this._mStates.Stopped)
 				.beforeExit(function() {
 					assert.ok(true, "stopped beforeExit called");
 				});
 
-			this._oStateMachine.Fire(this._mTrigger.Play);
+			this._oStateMachine.fire(this._mTrigger.Play);
 		});
 
 
