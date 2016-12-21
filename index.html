@@ -10,7 +10,7 @@
 			data-sap-ui-noConflict="true"
 			data-sap-ui-libs="sap.m"
 			data-sap-ui-resourceroots='{"test": "./"}'
-			 >
+			>
 		</script>
 		<link rel="stylesheet" href="https://openui5.hana.ondemand.com/resources/sap/ui/thirdparty/qunit.css" type="text/css" media="screen" />
 		<script type="text/javascript" src="https://openui5.hana.ondemand.com/resources/sap/ui/thirdparty/qunit.js"></script>
@@ -28,32 +28,33 @@
 		QUnit.module("StateMachine", {
 		    beforeEach: function() {
 					this._oStateMachine = new test.StateMachine();
-					this.mStates = {
+					this._mStates = {
 						Stopped: "Stopped",
 						Playing: "Playing",
 						Paused: "Paused"
 					};
 
-					this.mTrigger = {
+					this._mTrigger = {
 						Play: "Play",
 						Pause: "Pause",
 						Stop: "Stop"
 					};
 
-					this._oStateMachine.configure(this.mStates.Stopped)
-						.permit(this.mTrigger.Play, this.mStates.Playing);
+					this._oStateMachine.configure(this._mStates.Stopped)
+						.permit(this._mTrigger.Play, this._mStates.Playing);
 
-					this._oStateMachine.configure(this.mStates.Playing)
+					this._oStateMachine.configure(this._mStates.Playing)
 						.onEntry(function() {debugger})
-						.permit(this.mTrigger.Stop, this.mStates.Stopped)
-						.permit(this.mTrigger.Pause, this.mStates.Paused);
+						.permit(this._mTrigger.Stop, this._mStates.Stopped)
+						.permit(this._mTrigger.Pause, this._mStates.Paused);
 
-					this._oStateMachine.configure(this.mStates.Paused)
-						.permit(this.mTrigger.Play, this.mStates.Playing)
-						.permit(this.mTrigger.Stop, this.mStates.Stopped);
+					this._oStateMachine.configure(this._mStates.Paused)
+						.permit(this._mTrigger.Play, this._mStates.Playing)
+						.permit(this._mTrigger.Stop, this._mStates.Stopped);
 
-
+					this._oStateMachine.setInitialState(this._mStates.Stopped);
 		    },
+
 		    afterEach: function() {
 
 		    }
@@ -67,9 +68,33 @@
 			assert.ok(this._oStateMachine.test() === false);
 		});
 
+		QUnit.test("adsf", 1, function(assert) {
+			var sState = this._oStateMachine.getState();
+			assert.ok(sState == this._mStates.Stopped);
+		});
 
 		QUnit.test("Fire state", 1, function(assert) {
-			this._oStateMachine.Fire(this.mTrigger.Play);
+			this._oStateMachine.Fire(this._mTrigger.Play);
+			var sState = this._oStateMachine.getState();
+			assert.ok(sState === this._mStates.Playing);
+		});
+
+		QUnit.test("Fire state", 1, function(assert) {
+			this._oStateMachine.configure(this._mStates.Playing)
+				.onEntry(function() {
+					assert.ok(true, "playing onEntry called");
+				});
+
+			this._oStateMachine.Fire(this._mTrigger.Play);
+		});
+
+		QUnit.test("Fire state", 1, function(assert) {
+			this._oStateMachine.configure(this._mStates.Stopped)
+				.beforeExit(function() {
+					assert.ok(true, "stopped beforeExit called");
+				});
+
+			this._oStateMachine.Fire(this._mTrigger.Play);
 		});
 
 
