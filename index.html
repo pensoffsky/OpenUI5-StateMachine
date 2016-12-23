@@ -63,11 +63,8 @@
 		  assert.ok(this._oStateMachine , "StateMachine instance created");
 		});
 
-		QUnit.test("adsf", 1, function(assert) {
-			assert.ok(this._oStateMachine.test() === false);
-		});
 
-		QUnit.test("adsf", 1, function(assert) {
+		QUnit.test("Get initial state", 1, function(assert) {
 			var sState = this._oStateMachine.getState();
 			assert.ok(sState == this._mStates.Stopped);
 		});
