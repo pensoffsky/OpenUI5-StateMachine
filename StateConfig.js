@@ -16,17 +16,20 @@ sap.ui.define(['jquery.sap.global',
 	        animationFinished : {},
 	        animationStarted : {}
         }
-      }
+      },
+
+      constructor : function() {
+    		ManagedObject.apply(this, arguments);
+    		this._oPermissions = {};
+        this._fnOnEntry = null;
+        this._fnBeforeExit = null;
+    	}
     });
 
 
 // //////////////////////////////////////////////////////
 // /// Public functions
 // //////////////////////////////////////////////////////
-
-    StateConfig.prototype._oPermissions = {};
-    StateConfig.prototype._fnOnEntry = null;
-    StateConfig.prototype._fnBeforeExit = null;
 
     StateConfig.prototype.permit = function(sTrigger, sState) {
       this._oPermissions[sTrigger] = sState;

@@ -94,6 +94,14 @@
 		});
 
 
+		QUnit.test("Exception on invalid trigger called", 1, function(assert) {
+			assert.throws(
+		    function() {
+		      this._oStateMachine.fire(this._mTrigger.Stop);
+		    }
+		  );
+		});
+
 
 		</script>
 	</head>

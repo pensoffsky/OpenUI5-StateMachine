@@ -17,20 +17,28 @@ sap.ui.define(['jquery.sap.global',
 	        animationFinished : {},
 	        animationStarted : {}
         }
-      }
-    });
+      },
 
+      constructor : function() {
+    		ManagedObject.apply(this, arguments);
+    		this._oStateConfigs = {};
+    	}
+
+    });
 
 // //////////////////////////////////////////////////////
 // /// Public functions
 // //////////////////////////////////////////////////////
 
-    StateMachine.prototype._oStateConfigs = {};
-    StateMachine.prototype._sCurrentState = null;
+    // StateMachine.prototype.
+    // StateMachine.prototype. = null;
 
     StateMachine.prototype.configure = function(sState) {
-      var oStateConfig = new StateConfig(sState);
-      this._oStateConfigs[sState] = oStateConfig;
+      var oStateConfig = this._oStateConfigs[sState];
+      if(!oStateConfig){
+        oStateConfig = new StateConfig(sState);
+        this._oStateConfigs[sState] = oStateConfig;
+      }
       return oStateConfig;
     };
 
