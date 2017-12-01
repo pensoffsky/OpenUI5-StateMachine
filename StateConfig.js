@@ -6,24 +6,17 @@ sap.ui.define(['jquery.sap.global',
     var StateConfig = ManagedObject.extend("StateConfig", {
       metadata: {
         properties: {
-          repeat: {
-            type: "boolean",
-              defaultValue: true
-            }
         },
         events: {
-	        press : {},
-	        animationFinished : {},
-	        animationStarted : {}
         }
       },
 
       constructor : function() {
-    		ManagedObject.apply(this, arguments);
-    		this._oPermissions = {};
+        ManagedObject.apply(this, arguments);
+        this._oPermissions = {};
         this._fnOnEntry = null;
         this._fnBeforeExit = null;
-    	}
+        }
     });
 
 
@@ -31,11 +24,22 @@ sap.ui.define(['jquery.sap.global',
 // /// Public functions
 // //////////////////////////////////////////////////////
 
+    /**
+     * define for the trigger what state to end up in
+     * @param  {string} sTrigger trigger applied to the state defined in the StateConfig
+     * @param  {string} sState   state the machine ends up in
+     * @return {object}          the stateconfig object for chaining
+     */
     StateConfig.prototype.permit = function(sTrigger, sState) {
       this._oPermissions[sTrigger] = sState;
       return this;
     };
 
+    /**
+     * setup a callback that is called when the state is reached
+     * @param  {function} fnCallback   callback to call when the state is active
+     * @return {object}          the stateconfig object for chaining
+     */
     StateConfig.prototype.onEntry = function(fnCallback) {
       this._fnOnEntry = fnCallback;
       return this;

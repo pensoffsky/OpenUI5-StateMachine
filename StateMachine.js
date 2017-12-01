@@ -7,22 +7,17 @@ sap.ui.define(['jquery.sap.global',
     var StateMachine = ManagedObject.extend("StateMachine", {
       metadata: {
         properties: {
-          repeat: {
-            type: "boolean",
-              defaultValue: true
-            }
         },
         events: {
-	        press : {},
-	        animationFinished : {},
-	        animationStarted : {}
         }
       },
 
       constructor : function() {
-    		ManagedObject.apply(this, arguments);
-    		this._oStateConfigs = {};
-    	}
+          ManagedObject.apply(this, arguments);
+            this._oStateConfigs = {};
+            this._sCurrentState = undefined;
+            this._sInitialState = undefined;
+        }
 
     });
 
@@ -30,9 +25,11 @@ sap.ui.define(['jquery.sap.global',
 // /// Public functions
 // //////////////////////////////////////////////////////
 
-    // StateMachine.prototype.
-    // StateMachine.prototype. = null;
-
+    /**
+     * configure the state of the machine.
+     * @param  {[type]} sState [description]
+     * @return {[type]}        [description]
+     */
     StateMachine.prototype.configure = function(sState) {
       var oStateConfig = this._oStateConfigs[sState];
       if(!oStateConfig){
@@ -42,9 +39,21 @@ sap.ui.define(['jquery.sap.global',
       return oStateConfig;
     };
 
+    /**
+     * execute a trigger on the current state
+     * @param  {[type]} sTrigger [description]
+     * @return {[type]}          [description]
+     */
     StateMachine.prototype.fire = function(sTrigger) {
       var oCurrentStateConfig = this._oStateConfigs[this._sCurrentState];
       var sNextState = oCurrentStateConfig.getStateForTrigger(sTrigger);
+      
+      
+      if (sNextState === undefined){
+         //the current state does not allow transition with the given sTrigger
+         throw("invalid trigger");
+      }
+      
       var oNextStateConfig = this._oStateConfigs[sNextState];
 
       oCurrentStateConfig.executeBeforeExit();
@@ -52,20 +61,18 @@ sap.ui.define(['jquery.sap.global',
       oNextStateConfig.executeOnEntry();
     };
 
-    StateMachine.prototype.test = function() {
-      return false;
-    };
-
     StateMachine.prototype.setInitialState = function(sState) {
       this._sCurrentState = sState;
+      this._sInitialState = sState;
     };
 
     StateMachine.prototype.getState = function() {
       return this._sCurrentState;
     };
-
-
-
+    
+    StateMachine.prototype.reset = function() {
+      this._sCurrentState = this._sInitialState;
+    };
 
 // //////////////////////////////////////////////////////
 // /// Private functions

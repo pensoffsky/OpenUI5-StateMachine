@@ -40,17 +40,23 @@
 						Stop: "Stop"
 					};
 
+					//Stopped + "Play" ==> Playing
 					this._oStateMachine.configure(this._mStates.Stopped)
 						.permit(this._mTrigger.Play, this._mStates.Playing);
 
+					//Playing + "Stop" ==> Stopped
+					//Playing + "Pause" ==> Paused
 					this._oStateMachine.configure(this._mStates.Playing)
 						.permit(this._mTrigger.Stop, this._mStates.Stopped)
 						.permit(this._mTrigger.Pause, this._mStates.Paused);
 
+					//Paused + "Play" ==> Playing
+					//Paused + "Stop" ==> Stopped
 					this._oStateMachine.configure(this._mStates.Paused)
 						.permit(this._mTrigger.Play, this._mStates.Playing)
 						.permit(this._mTrigger.Stop, this._mStates.Stopped);
 
+					//start the machine in Stopped state
 					this._oStateMachine.setInitialState(this._mStates.Stopped);
 		    },
 
@@ -84,6 +90,7 @@
 			this._oStateMachine.fire(this._mTrigger.Play);
 		});
 
+
 		QUnit.test("Fire state and check beforeExit call", 1, function(assert) {
 			this._oStateMachine.configure(this._mStates.Stopped)
 				.beforeExit(function() {
@@ -92,14 +99,23 @@
 
 			this._oStateMachine.fire(this._mTrigger.Play);
 		});
+		
+		QUnit.test("Reset to initial state", 1, function(assert) {
+			this._oStateMachine.fire(this._mTrigger.Play);
+			
+			this._oStateMachine.reset();
+			
+			var sState = this._oStateMachine.getState();
+			assert.ok(sState === this._mStates.Stopped);
+		});
 
 
 		QUnit.test("Exception on invalid trigger called", 1, function(assert) {
 			assert.throws(
-		    function() {
-		      this._oStateMachine.fire(this._mTrigger.Stop);
-		    }
-		  );
+				function() {
+					this._oStateMachine.fire(this._mTrigger.Stop);
+				}, "invalid trigger"
+			);
 		});
 
 
