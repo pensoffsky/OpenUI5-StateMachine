@@ -1,18 +1,12 @@
 sap.ui.define(['jquery.sap.global',
-               'sap/ui/base/ManagedObject'],
-  function(jQuery, ManagedObject, StateConfig) {
+               'sap/ui/base/Object'],
+  function(jQuery, Object, StateConfig) {
     "use strict";
 
-    var StateConfig = ManagedObject.extend("StateConfig", {
-      metadata: {
-        properties: {
-        },
-        events: {
-        }
-      },
+    var StateConfig = Object.extend("StateConfig", {
 
       constructor : function() {
-        ManagedObject.apply(this, arguments);
+        Object.apply(this, arguments);
         this._oPermissions = {};
         this._fnOnEntry = null;
         this._fnBeforeExit = null;

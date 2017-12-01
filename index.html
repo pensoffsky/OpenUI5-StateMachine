@@ -27,37 +27,36 @@
 
 		QUnit.module("StateMachine", {
 		    beforeEach: function() {
-					this._oStateMachine = new test.StateMachine();
-					this._mStates = {
+					var mStates = {
 						Stopped: "Stopped",
 						Playing: "Playing",
 						Paused: "Paused"
 					};
-
-					this._mTrigger = {
+					var mTrigger = {
 						Play: "Play",
 						Pause: "Pause",
 						Stop: "Stop"
 					};
+					this._oStateMachine = new test.StateMachine(mStates, mTrigger);
 
 					//Stopped + "Play" ==> Playing
-					this._oStateMachine.configure(this._mStates.Stopped)
-						.permit(this._mTrigger.Play, this._mStates.Playing);
+					this._oStateMachine.configure(this._oStateMachine.getStates().Stopped)
+						.permit(this._oStateMachine.getTriggers().Play, this._oStateMachine.getStates().Playing);
 
 					//Playing + "Stop" ==> Stopped
 					//Playing + "Pause" ==> Paused
-					this._oStateMachine.configure(this._mStates.Playing)
-						.permit(this._mTrigger.Stop, this._mStates.Stopped)
-						.permit(this._mTrigger.Pause, this._mStates.Paused);
+					this._oStateMachine.configure(this._oStateMachine.getStates().Playing)
+						.permit(this._oStateMachine.getTriggers().Stop, this._oStateMachine.getStates().Stopped)
+						.permit(this._oStateMachine.getTriggers().Pause, this._oStateMachine.getStates().Paused);
 
 					//Paused + "Play" ==> Playing
 					//Paused + "Stop" ==> Stopped
-					this._oStateMachine.configure(this._mStates.Paused)
-						.permit(this._mTrigger.Play, this._mStates.Playing)
-						.permit(this._mTrigger.Stop, this._mStates.Stopped);
+					this._oStateMachine.configure(this._oStateMachine.getStates().Paused)
+						.permit(this._oStateMachine.getTriggers().Play, this._oStateMachine.getStates().Playing)
+						.permit(this._oStateMachine.getTriggers().Stop, this._oStateMachine.getStates().Stopped);
 
 					//start the machine in Stopped state
-					this._oStateMachine.setInitialState(this._mStates.Stopped);
+					this._oStateMachine.setInitialState(this._oStateMachine.getStates().Stopped);
 		    },
 
 		    afterEach: function() {
@@ -72,48 +71,48 @@
 
 		QUnit.test("Get initial state", 1, function(assert) {
 			var sState = this._oStateMachine.getState();
-			assert.ok(sState == this._mStates.Stopped);
+			assert.ok(sState == this._oStateMachine.getStates().Stopped);
 		});
 
 		QUnit.test("Fire state and check resulting state", 1, function(assert) {
-			this._oStateMachine.fire(this._mTrigger.Play);
+			this._oStateMachine.fire(this._oStateMachine.getTriggers().Play);
 			var sState = this._oStateMachine.getState();
-			assert.ok(sState === this._mStates.Playing);
+			assert.ok(sState === this._oStateMachine.getStates().Playing);
 		});
 
 		QUnit.test("Fire state and check onEntry call", 1, function(assert) {
-			this._oStateMachine.configure(this._mStates.Playing)
+			this._oStateMachine.configure(this._oStateMachine.getStates().Playing)
 				.onEntry(function() {
 					assert.ok(true, "playing onEntry called");
 				});
 
-			this._oStateMachine.fire(this._mTrigger.Play);
+			this._oStateMachine.fire(this._oStateMachine.getTriggers().Play);
 		});
 
 
 		QUnit.test("Fire state and check beforeExit call", 1, function(assert) {
-			this._oStateMachine.configure(this._mStates.Stopped)
+			this._oStateMachine.configure(this._oStateMachine.getStates().Stopped)
 				.beforeExit(function() {
 					assert.ok(true, "stopped beforeExit called");
 				});
 
-			this._oStateMachine.fire(this._mTrigger.Play);
+			this._oStateMachine.fire(this._oStateMachine.getTriggers().Play);
 		});
 		
 		QUnit.test("Reset to initial state", 1, function(assert) {
-			this._oStateMachine.fire(this._mTrigger.Play);
+			this._oStateMachine.fire(this._oStateMachine.getTriggers().Play);
 			
 			this._oStateMachine.reset();
 			
 			var sState = this._oStateMachine.getState();
-			assert.ok(sState === this._mStates.Stopped);
+			assert.ok(sState === this._oStateMachine.getStates().Stopped);
 		});
 
 
 		QUnit.test("Exception on invalid trigger called", 1, function(assert) {
 			assert.throws(
 				function() {
-					this._oStateMachine.fire(this._mTrigger.Stop);
+					this._oStateMachine.fire(this._oStateMachine.getTriggers().Stop);
 				}, "invalid trigger"
 			);
 		});

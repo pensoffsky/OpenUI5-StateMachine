@@ -1,29 +1,28 @@
 sap.ui.define(['jquery.sap.global',
-              'sap/ui/base/ManagedObject',
+              'sap/ui/base/Object',
               './StateConfig'],
-  function(jQuery, ManagedObject, StateConfig) {
+  function(jQuery, Object, StateConfig) {
     "use strict";
 
-    var StateMachine = ManagedObject.extend("StateMachine", {
-      metadata: {
-        properties: {
-        },
-        events: {
+    var StateMachine = Object.extend("StateMachine", {
+        
+      constructor : function(mStates, mTriggers) {
+          Object.apply(this, arguments);
+          this._oStateConfigs = {};
+          this._sCurrentState = undefined;
+          this._sInitialState = undefined;
+          this._mStates = undefined;
+          this._mTriggers = undefined;
+          this.setTriggers(mTriggers);
+          this.setStates(mStates);
         }
-      },
-
-      constructor : function() {
-          ManagedObject.apply(this, arguments);
-            this._oStateConfigs = {};
-            this._sCurrentState = undefined;
-            this._sInitialState = undefined;
-        }
-
     });
 
 // //////////////////////////////////////////////////////
 // /// Public functions
 // //////////////////////////////////////////////////////
+
+    
 
     /**
      * configure the state of the machine.
@@ -65,13 +64,37 @@ sap.ui.define(['jquery.sap.global',
       this._sCurrentState = sState;
       this._sInitialState = sState;
     };
-
+    
+    StateMachine.prototype.reset = function() {
+      this._sCurrentState = this._sInitialState;
+    };
+    
+    // //////////////////////////////////////////////////////
+    // /// Setter & Getter
+    // //////////////////////////////////////////////////////
+    
     StateMachine.prototype.getState = function() {
       return this._sCurrentState;
     };
     
-    StateMachine.prototype.reset = function() {
-      this._sCurrentState = this._sInitialState;
+    StateMachine.prototype.getInitialState = function() {
+      return this._sInitialState;
+    };
+    
+    StateMachine.prototype.setStates = function(mStates) {
+      this._mStates = mStates;
+    };
+    
+    StateMachine.prototype.setTriggers = function(mTriggers) {
+      this._mTriggers = mTriggers;
+    };
+    
+    StateMachine.prototype.getStates = function() {
+      return this._mStates;
+    };
+    
+    StateMachine.prototype.getTriggers = function() {
+      return this._mTriggers;
     };
 
 // //////////////////////////////////////////////////////
