@@ -60,9 +60,12 @@ sap.ui.define(['jquery.sap.global',
       oNextStateConfig.executeOnEntry();
     };
 
-    StateMachine.prototype.setInitialState = function(sState) {
+    StateMachine.prototype.setInitialState = function(sState, bFireInitialStateEvent) {
       this._sCurrentState = sState;
       this._sInitialState = sState;
+      
+      var oCurrentStateConfig = this._oStateConfigs[this._sCurrentState];
+      oCurrentStateConfig.executeOnEntry();
     };
     
     StateMachine.prototype.reset = function() {

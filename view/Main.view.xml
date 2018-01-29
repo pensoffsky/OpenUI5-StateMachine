@@ -1,0 +1,22 @@
+<core:View xmlns:core="sap.ui.core" 
+	xmlns:mvc="sap.ui.core.mvc" 
+	xmlns="sap.m"
+	controllerName="view.Main" 
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:l="sap.ui.layout"
+	xmlns:custom="view"
+	>
+	<Page title="StateMachine">
+		<content>
+			<VBox>
+				<Text id="idStateText"/>
+				<HBox>
+					<Button id="idEditButton" text="Edit" press="onEditPressed" />
+					<Button id="idDeleteButton" text="Delete" press="onDeletePressed" />
+					<Button id="idCancelButton" text="Cancel" press="onCancelPressed" />
+					<Button id="idSaveButton" text="Save" press="onSavePressed" />
+				</HBox>
+			</VBox>
+		</content>
+	</Page>
+</core:View>
