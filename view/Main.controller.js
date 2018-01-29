@@ -49,6 +49,7 @@ sap.ui.define([
 			//EditState + "Cancel" ==> DisplayState
 			this._oStateMachine.configure(this._mStates.EditState)
 				.onEntry(this._onEnteredEditState.bind(this))
+				.beforeExit(this._onBeforeExitEditState.bind(this))
 				.permit(this._mTrigger.Cancel, this._mStates.DisplayState)
 				.permit(this._mTrigger.Save, this._mStates.DisplayState);
 			
@@ -74,6 +75,7 @@ sap.ui.define([
 			console.log("display state");
 			this.byId("idStateText").setText(this._oStateMachine.getState());
 			
+			this.byId("idInput").setVisible(false);
 			this.byId("idEditButton").setVisible(true);
 			this.byId("idDeleteButton").setVisible(true);
 			this.byId("idCancelButton").setVisible(false);
@@ -84,16 +86,23 @@ sap.ui.define([
 			console.log("edit state");
 			this.byId("idStateText").setText(this._oStateMachine.getState());
 			
+			this.byId("idInput").setVisible(true);
 			this.byId("idEditButton").setVisible(false);
 			this.byId("idDeleteButton").setVisible(false);
 			this.byId("idCancelButton").setVisible(true);
 			this.byId("idSaveButton").setVisible(true);
 		},
 		
+		//reset data before leaving the edit state
+		_onBeforeExitEditState: function() {
+			this.byId("idInput").setValue("");
+		},
+		
 		_onEnteredDeleteState: function () {
 			console.log("delete state");
 			this.byId("idStateText").setText(this._oStateMachine.getState());
 			
+			this.byId("idInput").setVisible(false);
 			this.byId("idEditButton").setVisible(true);
 			this.byId("idDeleteButton").setVisible(true);
 			this.byId("idCancelButton").setVisible(false);
@@ -123,6 +132,7 @@ sap.ui.define([
 			console.log("objectDeleted state");
 			this.byId("idStateText").setText(this._oStateMachine.getState());
 			
+			this.byId("idInput").setVisible(false);
 			this.byId("idEditButton").setVisible(false);
 			this.byId("idDeleteButton").setVisible(false);
 			this.byId("idCancelButton").setVisible(false);

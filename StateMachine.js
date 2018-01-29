@@ -54,8 +54,11 @@ sap.ui.define(['jquery.sap.global',
       }
       
       var oNextStateConfig = this._oStateConfigs[sNextState];
-
-      oCurrentStateConfig.executeBeforeExit();
+      var bExitAllowed = oCurrentStateConfig.executeBeforeExit();
+      if(bExitAllowed === false){
+          return;
+      }
+      
       this._sCurrentState = sNextState;
       oNextStateConfig.executeOnEntry();
     };

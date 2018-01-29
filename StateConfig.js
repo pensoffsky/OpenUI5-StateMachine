@@ -51,9 +51,11 @@ sap.ui.define(['jquery.sap.global',
     };
 
     StateConfig.prototype.executeBeforeExit = function () {
-      if(this._fnBeforeExit) {
-        this._fnBeforeExit();
-      }
+        if(this._fnBeforeExit) {
+            return this._fnBeforeExit();
+        } else {
+            return true;
+        }
     };
 
     StateConfig.prototype.getStateForTrigger = function(sTrigger) {

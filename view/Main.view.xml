@@ -11,7 +11,10 @@
 			<VBox>
 				<Title id="idStateText" class="sapUiMediumMargin"/>
 				<HBox>
-					
+					<Input id="idInput"
+							class="sapUiMediumMarginBegin"
+							required="true"
+							description="some random input"/>
 				</HBox>
 			</VBox>
 		</content>
