@@ -13,6 +13,29 @@ sap.ui.define([
 		// /////////////////////////////////////////////////////////////////////////////
 		
 		_oStateMachine : null,
+		
+/*	
+               SAVE
+          +-----------------+
+          |                 |
+          v      EDIT       |
+      +-------+ --------> +----+
+      |Display|           |Edit|
+      +-------+ <-------- +----+
+       ^    |       CANCEL
+       |    |
+ CANCEL|    | DELETE
+       |    v
+      +------+
+      |Delete|
+      +------+
+          |
+          | DeleteConfirm
+          v
+      +-------+
+      |Deleted|
+      +-------+
+*/
 
 		//define the possible states of the UI
 		_mStates : {
@@ -21,7 +44,7 @@ sap.ui.define([
 			DeleteState: "DeleteState",
 			ObjectDeletedState: "ObjectDeletedState"
 		},
-		
+
 		//define the triggers that can change the state of the UI
 		_mTrigger : {
 			Edit: "Edit",
@@ -34,6 +57,7 @@ sap.ui.define([
 		// /////////////////////////////////////////////////////////////////////////////
 		// /// Initialization
 		// /////////////////////////////////////////////////////////////////////////////
+
 
 		onInit: function() {
 			//crate the stateMachine and configure it
