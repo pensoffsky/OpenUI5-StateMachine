@@ -106,8 +106,12 @@ sap.ui.define([
 					onClose: function(oAction) { 
 						if(oAction === MessageBox.Action.YES) {
 							MessageToast.show("Object deleted");
+							
+							//deletion was confirmed
 							this._oStateMachine.fire(this._mTrigger.DeleteConfirm);
 						} else {
+							
+							//cancel deletion
 							this._oStateMachine.fire(this._mTrigger.Cancel);
 						}
 					}.bind(this)

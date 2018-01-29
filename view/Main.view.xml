@@ -9,14 +9,19 @@
 	<Page title="StateMachine">
 		<content>
 			<VBox>
-				<Text id="idStateText"/>
+				<Title id="idStateText" class="sapUiMediumMargin"/>
 				<HBox>
-					<Button id="idEditButton" text="Edit" press="onEditPressed" />
-					<Button id="idDeleteButton" text="Delete" press="onDeletePressed" />
-					<Button id="idCancelButton" text="Cancel" press="onCancelPressed" />
-					<Button id="idSaveButton" text="Save" press="onSavePressed" />
+					
 				</HBox>
 			</VBox>
 		</content>
+		<footer>
+			<Toolbar>
+				<Button id="idEditButton" text="Edit" press="onEditPressed" />
+				<Button id="idDeleteButton" text="Delete" press="onDeletePressed" />
+				<Button id="idCancelButton" text="Cancel" press="onCancelPressed" />
+				<Button id="idSaveButton" text="Save" press="onSavePressed" />
+			</Toolbar>
+		</footer>
 	</Page>
 </core:View>
