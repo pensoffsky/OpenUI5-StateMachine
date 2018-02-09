@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageBox",
 	"sap/m/MessageToast",
-	"state/view/ViewControllerState"
-], function(Controller, MessageBox, MessageToast, ViewControllerState) {
+	"state/view/MainStateJSONModel",
+	"state/view/CalculationLogic"
+], function(Controller, MessageBox, MessageToast, MainStateJSONModel, CalculationLogic) {
 	"use strict";
 
 	return Controller.extend("view.Main", {
@@ -12,9 +13,9 @@ sap.ui.define([
 		// /// Member
 		// /////////////////////////////////////////////////////////////////////////////
 		
-		_oViewControllerState : null,
+		_oMainStateJSONModel : null,
 		
-
+		_oCalculationLogic : null,
 
 
 		// /////////////////////////////////////////////////////////////////////////////
@@ -24,34 +25,49 @@ sap.ui.define([
 
 		onInit: function() {
 			//create the stateMachine and configure it
-			this._oViewControllerState = new ViewControllerState();
-			this._oViewControllerState.createStateMachine(this);
+			this._oMainStateJSONModel = MainStateJSONModel.create(this);
+			this.getView().setModel(this._oMainStateJSONModel.getJSONModel(), "viewModel");
+			
+			this._oCalculationLogic = CalculationLogic.create(this);
 		},
 
 		// /////////////////////////////////////////////////////////////////////////////
 		// /// StateMachine Events
 		// /////////////////////////////////////////////////////////////////////////////
 
-		//TODO how to overwrite state change handlers from viewControllerState
+
+		//gets called from the state machine, allows prefill of date before entering the state
+		onEnteredEditState: function() {
+			this._oMainStateJSONModel.prefillInputs(this._oCalculationLogic.getPrefillValue());
+		},
+		
 
 		// /////////////////////////////////////////////////////////////////////////////
 		// /// Button EventHandler
 		// /////////////////////////////////////////////////////////////////////////////
+		
+		
+		onCalculatePressed: function () {
+			var oValues = this._oMainStateJSONModel.getCalculationInput();
+			var sRes = this._oCalculationLogic.plus(oValues.sValue1, oValues.sValue2);
+			MessageToast.show(sRes);
+		},
+
 
 		onEditPressed : function(){
-			this._oViewControllerState.fireTrigger(ViewControllerState.mTrigger.Edit);
+			this._oMainStateJSONModel.fireTrigger(this._oMainStateJSONModel.getTriggers().Edit);
 		},
 		
 		onDeletePressed : function(){
-			this._oViewControllerState.fireTrigger(ViewControllerState.mTrigger.Delete);
+			this._oMainStateJSONModel.fireTrigger(this._oMainStateJSONModel.getTriggers().Delete);
 		},
 		
 		onCancelPressed : function(){
-			this._oViewControllerState.fireTrigger(ViewControllerState.mTrigger.Cancel);
+			this._oMainStateJSONModel.fireTrigger(this._oMainStateJSONModel.getTriggers().Cancel);
 		},
 		
 		onSavePressed : function(){
-			this._oViewControllerState.fireTrigger(ViewControllerState.mTrigger.Save);
+			this._oMainStateJSONModel.fireTrigger(this._oMainStateJSONModel.getTriggers().Save);
 		}
 		
 	});

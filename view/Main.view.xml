@@ -10,12 +10,18 @@
 		<content>
 			<VBox>
 				<Title id="idStateText" class="sapUiMediumMargin"/>
-				<HBox>
-					<Input id="idInput"
-							class="sapUiMediumMarginBegin"
-							required="true"
-							description="some random input"/>
+				
+				<HBox visible="{viewModel>/bCalculationControlsVisible}">
+					<Input class="sapUiMediumMarginBegin"
+							value="{viewModel>/sInput1Value}"
+							/>
+					<Text text=" + "/>
+					<Input class="sapUiMediumMarginBegin"
+							value="{viewModel>/sInput2Value}"
+							/>
+					<Button text="Calculate" press="onCalculatePressed"/>
 				</HBox>
+				
 			</VBox>
 		</content>
 		<footer>
