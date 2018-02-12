@@ -79,8 +79,13 @@ sap.ui.define(['jquery.sap.global',
       }
     };
     
-    StateMachine.prototype.reset = function() {
+    StateMachine.prototype.reset = function(bFireStateEvent) {
       this._sCurrentState = this._sInitialState;
+      
+      if(bFireStateEvent === true){
+          var oCurrentStateConfig = this._oStateConfigs[this._sCurrentState];
+          oCurrentStateConfig.executeOnEntry();
+      }
     };
     
     // //////////////////////////////////////////////////////

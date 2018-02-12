@@ -36,6 +36,10 @@ sap.ui.define(['jquery.sap.global',
         this._oStateMachine.fire(sTrigger);
     };
     
+    BaseViewState.prototype.resetState = function (bFireStateEvent) {    
+        this._oStateMachine.reset(bFireStateEvent);
+    };
+    
     BaseViewState.prototype.getJSONModel = function () {
         return this._oViewModel;
     };

@@ -25,10 +25,19 @@ sap.ui.define([
 
 		onInit: function() {
 			//create the stateMachine and configure it
-			this._oMainViewState = MainViewState.create(this);
+			this._oMainViewState = MainViewState.create(this, false);
 			this.getView().setModel(this._oMainViewState.getJSONModel(), "viewModel");
-			
+		
 			this._oCalculationLogic = CalculationLogic.create(this);
+			
+			setTimeout(function () {
+				//normally we attach to the routing events
+				this.simulatedOnRouteMatched();
+			}.bind(this), 200);
+		},
+		
+		simulatedOnRouteMatched: function () {
+			this._oMainViewState.resetState(true);
 		},
 
 		// /////////////////////////////////////////////////////////////////////////////

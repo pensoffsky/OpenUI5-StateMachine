@@ -36,7 +36,7 @@ sap.ui.define(['jquery.sap.global',
     */
 
     //define the possible states of the UI
-    MainViewState.create = function(oControllerDelegate) {
+    MainViewState.create = function(oControllerDelegate, bFireInitialStateEvent) {
         var MaineViewState = new MainViewState();
         
         MaineViewState.setControllerDelegate(oControllerDelegate);
@@ -86,7 +86,7 @@ sap.ui.define(['jquery.sap.global',
 // /// Public functions
 // //////////////////////////////////////////////////////
     
-    MainViewState.prototype.configureStateMachine = function() {
+    MainViewState.prototype.configureStateMachine = function(bFireInitialStateEvent) {
     
         //DisplayState + "Edit" ==> EditState
         //DisplayState + "Delete" ==> DeleteState
@@ -113,7 +113,7 @@ sap.ui.define(['jquery.sap.global',
             .onEntry(this.onEnteredObjectDeleteState.bind(this));
     
         //start the machine in DisplayState state, fire initial state event
-        this._oStateMachine.setInitialState(this.getStates().DisplayState, true);
+        this._oStateMachine.setInitialState(this.getStates().DisplayState, bFireInitialStateEvent);
     
         return this._oStateMachine;
     };
