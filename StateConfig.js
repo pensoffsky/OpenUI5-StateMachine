@@ -44,15 +44,15 @@ sap.ui.define(['jquery.sap.global',
       return this;
     };
 
-    StateConfig.prototype.executeOnEntry = function () {
+    StateConfig.prototype.executeOnEntry = function (sLastState) {
       if(this._fnOnEntry) {
-        this._fnOnEntry();
+        this._fnOnEntry(sLastState);
       }
     };
 
-    StateConfig.prototype.executeBeforeExit = function () {
+    StateConfig.prototype.executeBeforeExit = function (sNextState) {
         if(this._fnBeforeExit) {
-            return this._fnBeforeExit();
+            return this._fnBeforeExit(sNextState);
         } else {
             return true;
         }
