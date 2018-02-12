@@ -5,6 +5,7 @@
 	xmlns:html="http://www.w3.org/1999/xhtml"
 	xmlns:l="sap.ui.layout"
 	xmlns:custom="view"
+	busyIndicatorDelay="0"
 	>
 	<Page title="StateMachine">
 		<content>

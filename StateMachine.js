@@ -54,14 +54,19 @@ sap.ui.define(['jquery.sap.global',
       }
       
       var oNextStateConfig = this._oStateConfigs[sNextState];
-      var bExitAllowed = oCurrentStateConfig.executeBeforeExit(sNextState);
-      if(bExitAllowed === false){
-          return;
+      
+      var oEvent = {
+          sLastState: this._sCurrentState,
+          sNextState : sNextState,
+          bCancelStateChange: false
+      };
+      oCurrentStateConfig.executeBeforeExit(oEvent);
+      if(oEvent.bCancelStateChange === true){
+          throw("exiting current state not allowed");
       }
       
-      var sLastState = this._sCurrentState;
       this._sCurrentState = sNextState;
-      oNextStateConfig.executeOnEntry(sLastState);
+      oNextStateConfig.executeOnEntry(oEvent);
     };
 
     StateMachine.prototype.setInitialState = function(sState, bFireInitialStateEvent) {

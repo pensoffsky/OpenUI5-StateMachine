@@ -37,7 +37,7 @@ sap.ui.define([
 
 
 		//gets called from the state machine, allows prefill of date before entering the state
-		onEnteredEditState: function() {
+		onEnteredEditState: function(oEvent) {
 			this._oMainViewState.prefillInputs(this._oCalculationLogic.getPrefillValue());
 		},
 		
@@ -54,8 +54,19 @@ sap.ui.define([
 		},
 
 
-		onEditPressed : function(){			
-			this._oMainViewState.fireTrigger(this._oMainViewState.getTriggers().Edit);
+		onEditPressed : function(){
+			this.getView().setBusy(true);
+			setTimeout(function () {
+				if(Math.random() > 0.5) {
+					//success
+					this.getView().setBusy(false);
+					this._oMainViewState.fireTrigger(this._oMainViewState.getTriggers().Edit);
+				} else {
+					//error
+					this.getView().setBusy(false);
+					MessageBox.error("Random edit error, please try again");
+				}
+			}.bind(this), 2000);
 		},
 		
 		onDeletePressed : function(){

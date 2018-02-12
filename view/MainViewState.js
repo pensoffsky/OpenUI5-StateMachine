@@ -123,7 +123,7 @@ sap.ui.define(['jquery.sap.global',
     // /// State Change Handler
     // //////////////////////////////////////////////////////
 
-    MainViewState.prototype.onEnteredDisplayState = function (sLastState) {
+    MainViewState.prototype.onEnteredDisplayState = function (oEvent) {
         console.log("display state");
         this._oControllerDelegate.byId("idStateText").setText(this._oStateMachine.getState());
         
@@ -135,7 +135,7 @@ sap.ui.define(['jquery.sap.global',
         this._oControllerDelegate.byId("idSaveButton").setVisible(false);
     };
 
-    MainViewState.prototype.onEnteredEditState = function (sLastState) {
+    MainViewState.prototype.onEnteredEditState = function (oEvent) {
         if(this._oControllerDelegate.onEnteredEditState()){
             return;
         }
@@ -151,13 +151,13 @@ sap.ui.define(['jquery.sap.global',
     };
 
     //reset data before leaving the edit state
-    MainViewState.prototype.onBeforeExitEditState = function(sNextState) {
+    MainViewState.prototype.onBeforeExitEditState = function(oEvent) {
         //TODO is this a job for the controller or the calculation logic?
         this._oViewModel.setProperty("/sInput1Value", "");
         this._oViewModel.setProperty("/sInput2Value", "");
     };
 
-    MainViewState.prototype.onEnteredDeleteState = function (sLastState) {
+    MainViewState.prototype.onEnteredDeleteState = function (oEvent) {
         console.log("delete state");
         this._oControllerDelegate.byId("idStateText").setText(this._oStateMachine.getState());
         
@@ -187,7 +187,7 @@ sap.ui.define(['jquery.sap.global',
         );
     };
 
-    MainViewState.prototype.onEnteredObjectDeleteState = function (sLastState) {
+    MainViewState.prototype.onEnteredObjectDeleteState = function (oEvent) {
         console.log("objectDeleted state");
         this._oControllerDelegate.byId("idStateText").setText(this._oStateMachine.getState());
         
