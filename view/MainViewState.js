@@ -1,14 +1,14 @@
 sap.ui.define(['jquery.sap.global',
-              'state/view/BaseStateJSONModel',
+              'state/view/BaseViewState',
               "sap/m/MessageBox",
 	          "sap/m/MessageToast",
               'state/StateMachine'],
-  function(jQuery, BaseStateJSONModel, MessageBox, MessageToast, StateMachine) {
+  function(jQuery, BaseViewState, MessageBox, MessageToast, StateMachine) {
     "use strict";
 
-    var MainStateJSONModel = BaseStateJSONModel.extend("MainStateJSONModel", {
+    var MainViewState = BaseViewState.extend("MainViewState", {
         constructor : function() {
-            BaseStateJSONModel.apply(this, arguments);
+            BaseViewState.apply(this, arguments);
       }
     });
 
@@ -36,13 +36,13 @@ sap.ui.define(['jquery.sap.global',
     */
 
     //define the possible states of the UI
-    MainStateJSONModel.create = function(oControllerDelegate) {
-        var oMainStateJSONModel = new MainStateJSONModel();
+    MainViewState.create = function(oControllerDelegate) {
+        var MaineViewState = new MainViewState();
         
-        oMainStateJSONModel.setControllerDelegate(oControllerDelegate);
+        MaineViewState.setControllerDelegate(oControllerDelegate);
         
-        oMainStateJSONModel.configureStateMachine();
-        return oMainStateJSONModel;
+        MaineViewState.configureStateMachine();
+        return MaineViewState;
     };
 
 
@@ -50,7 +50,7 @@ sap.ui.define(['jquery.sap.global',
     // /// State Machine Config
     // //////////////////////////////////////////////////////
 
-    MainStateJSONModel.prototype.getDelegateFunctions = function() {
+    MainViewState.prototype.getDelegateFunctions = function() {
         //INFO could be injrected state config
         return [
             "byId",
@@ -59,7 +59,7 @@ sap.ui.define(['jquery.sap.global',
     };
     
     //define the possible states of the UI
-    MainStateJSONModel.prototype.getTriggers = function() {
+    MainViewState.prototype.getTriggers = function() {
         //INFO could be injrected state config
         return {
             Edit: "Edit",
@@ -71,7 +71,7 @@ sap.ui.define(['jquery.sap.global',
     };
 
     //define the possible triggers
-    MainStateJSONModel.prototype.getStates = function() {
+    MainViewState.prototype.getStates = function() {
         //INFO could be injrected state config
         return {
             DisplayState: "DisplayState",
@@ -86,7 +86,7 @@ sap.ui.define(['jquery.sap.global',
 // /// Public functions
 // //////////////////////////////////////////////////////
     
-    MainStateJSONModel.prototype.configureStateMachine = function() {
+    MainViewState.prototype.configureStateMachine = function() {
     
         //DisplayState + "Edit" ==> EditState
         //DisplayState + "Delete" ==> DeleteState
@@ -123,7 +123,7 @@ sap.ui.define(['jquery.sap.global',
     // /// State Change Handler
     // //////////////////////////////////////////////////////
 
-    MainStateJSONModel.prototype.onEnteredDisplayState = function () {
+    MainViewState.prototype.onEnteredDisplayState = function () {
         console.log("display state");
         this._oControllerDelegate.byId("idStateText").setText(this._oStateMachine.getState());
         
@@ -135,7 +135,7 @@ sap.ui.define(['jquery.sap.global',
         this._oControllerDelegate.byId("idSaveButton").setVisible(false);
     };
 
-    MainStateJSONModel.prototype.onEnteredEditState = function () {
+    MainViewState.prototype.onEnteredEditState = function () {
         if(this._oControllerDelegate.onEnteredEditState()){
             return;
         }
@@ -151,13 +151,13 @@ sap.ui.define(['jquery.sap.global',
     };
 
     //reset data before leaving the edit state
-    MainStateJSONModel.prototype.onBeforeExitEditState = function() {
+    MainViewState.prototype.onBeforeExitEditState = function() {
         //TODO is this a job for the controller or the calculation logic?
         this._oViewModel.setProperty("/sInput1Value", "");
         this._oViewModel.setProperty("/sInput2Value", "");
     };
 
-    MainStateJSONModel.prototype.onEnteredDeleteState = function () {
+    MainViewState.prototype.onEnteredDeleteState = function () {
         console.log("delete state");
         this._oControllerDelegate.byId("idStateText").setText(this._oStateMachine.getState());
         
@@ -187,7 +187,7 @@ sap.ui.define(['jquery.sap.global',
         );
     };
 
-    MainStateJSONModel.prototype.onEnteredObjectDeleteState = function () {
+    MainViewState.prototype.onEnteredObjectDeleteState = function () {
         console.log("objectDeleted state");
         this._oControllerDelegate.byId("idStateText").setText(this._oStateMachine.getState());
         
@@ -204,19 +204,19 @@ sap.ui.define(['jquery.sap.global',
 
     //provide methods to access data from the jsonmodel instead of directly accessing via setProperty
     
-    MainStateJSONModel.prototype.getCalculationInput = function () {
+    MainViewState.prototype.getCalculationInput = function () {
         return {
             sValue1: this._oViewModel.getProperty("/sInput1Value"),
             sValue2: this._oViewModel.getProperty("/sInput2Value")
         };
     };
     
-    MainStateJSONModel.prototype.prefillInputs = function (sValue) {
+    MainViewState.prototype.prefillInputs = function (sValue) {
         this._oViewModel.setProperty("/sInput1Value", sValue);
         this._oViewModel.setProperty("/sInput2Value", sValue);
     };
     
 
-    return MainStateJSONModel;
+    return MainViewState;
 
 }, /* bExport= */ true);

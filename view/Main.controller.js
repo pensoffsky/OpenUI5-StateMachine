@@ -2,9 +2,9 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageBox",
 	"sap/m/MessageToast",
-	"state/view/MainStateJSONModel",
+	"state/view/MainViewState",
 	"state/view/CalculationLogic"
-], function(Controller, MessageBox, MessageToast, MainStateJSONModel, CalculationLogic) {
+], function(Controller, MessageBox, MessageToast, MainViewState, CalculationLogic) {
 	"use strict";
 
 	return Controller.extend("view.Main", {
@@ -13,7 +13,7 @@ sap.ui.define([
 		// /// Member
 		// /////////////////////////////////////////////////////////////////////////////
 		
-		_oMainStateJSONModel : null,
+		_oMainViewState : null,
 		
 		_oCalculationLogic : null,
 
@@ -25,8 +25,8 @@ sap.ui.define([
 
 		onInit: function() {
 			//create the stateMachine and configure it
-			this._oMainStateJSONModel = MainStateJSONModel.create(this);
-			this.getView().setModel(this._oMainStateJSONModel.getJSONModel(), "viewModel");
+			this._oMainViewState = MainViewState.create(this);
+			this.getView().setModel(this._oMainViewState.getJSONModel(), "viewModel");
 			
 			this._oCalculationLogic = CalculationLogic.create(this);
 		},
@@ -38,7 +38,7 @@ sap.ui.define([
 
 		//gets called from the state machine, allows prefill of date before entering the state
 		onEnteredEditState: function() {
-			this._oMainStateJSONModel.prefillInputs(this._oCalculationLogic.getPrefillValue());
+			this._oMainViewState.prefillInputs(this._oCalculationLogic.getPrefillValue());
 		},
 		
 
@@ -48,26 +48,26 @@ sap.ui.define([
 		
 		
 		onCalculatePressed: function () {
-			var oValues = this._oMainStateJSONModel.getCalculationInput();
+			var oValues = this._oMainViewState.getCalculationInput();
 			var sRes = this._oCalculationLogic.plus(oValues.sValue1, oValues.sValue2);
 			MessageToast.show(sRes);
 		},
 
 
-		onEditPressed : function(){
-			this._oMainStateJSONModel.fireTrigger(this._oMainStateJSONModel.getTriggers().Edit);
+		onEditPressed : function(){			
+			this._oMainViewState.fireTrigger(this._oMainViewState.getTriggers().Edit);
 		},
 		
 		onDeletePressed : function(){
-			this._oMainStateJSONModel.fireTrigger(this._oMainStateJSONModel.getTriggers().Delete);
+			this._oMainViewState.fireTrigger(this._oMainViewState.getTriggers().Delete);
 		},
 		
 		onCancelPressed : function(){
-			this._oMainStateJSONModel.fireTrigger(this._oMainStateJSONModel.getTriggers().Cancel);
+			this._oMainViewState.fireTrigger(this._oMainViewState.getTriggers().Cancel);
 		},
 		
 		onSavePressed : function(){
-			this._oMainStateJSONModel.fireTrigger(this._oMainStateJSONModel.getTriggers().Save);
+			this._oMainViewState.fireTrigger(this._oMainViewState.getTriggers().Save);
 		}
 		
 	});

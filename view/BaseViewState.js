@@ -5,7 +5,7 @@ sap.ui.define(['jquery.sap.global',
   function(jQuery, BaseDelegateHandler, JSONModel, StateMachine) {
     "use strict";
 
-    var BaseStateJSONModel = BaseDelegateHandler.extend("BaseStateJSONModel", {
+    var BaseViewState = BaseDelegateHandler.extend("BaseViewState", {
         constructor : function() {
             BaseDelegateHandler.apply(this, arguments);
             this._oStateMachine = new StateMachine(this.getStates(), this.getTriggers());
@@ -15,28 +15,28 @@ sap.ui.define(['jquery.sap.global',
     });
 
     //define the possible states of the UI
-    BaseStateJSONModel._oStateMachine = null;
+    BaseViewState._oStateMachine = null;
 
 
 // //////////////////////////////////////////////////////
 // /// Public functions
 // //////////////////////////////////////////////////////
 
-    BaseStateJSONModel.prototype.getTriggers = function (fFunction) {
+    BaseViewState.prototype.getTriggers = function (fFunction) {
         return {};
     };
 
-    BaseStateJSONModel.prototype.getStates = function (fFunction) {
+    BaseViewState.prototype.getStates = function (fFunction) {
         return {};
     };
 
-    BaseStateJSONModel.prototype.fireTrigger = function (sTrigger) {
+    BaseViewState.prototype.fireTrigger = function (sTrigger) {
         console.log("fireTrigger " + sTrigger);
     
         this._oStateMachine.fire(sTrigger);
     };
     
-    BaseStateJSONModel.prototype.getJSONModel = function () {
+    BaseViewState.prototype.getJSONModel = function () {
         return this._oViewModel;
     };
     
@@ -47,6 +47,6 @@ sap.ui.define(['jquery.sap.global',
     // //////////////////////////////////////////////////////
 
 
-    return BaseStateJSONModel;
+    return BaseViewState;
 
 }, /* bExport= */ true);
