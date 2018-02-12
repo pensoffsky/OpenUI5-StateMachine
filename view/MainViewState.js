@@ -41,7 +41,7 @@ sap.ui.define(['jquery.sap.global',
         
         MaineViewState.setControllerDelegate(oControllerDelegate);
         
-        MaineViewState.configureStateMachine();
+        MaineViewState.configureStateMachine(bFireInitialStateEvent);
         return MaineViewState;
     };
 
