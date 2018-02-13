@@ -1,18 +1,16 @@
 sap.ui.define([
-	"sap/m/MessageBox",
-	"sap/m/MessageToast",
+	"sap/ui/core/mvc/Controller",
 	"state/view/BaseController",
-	"state/view/MainViewState",
-	"state/view/CalculationLogic"
-], function(MessageBox, MessageToast, BaseController, MainViewState, CalculationLogic) {
+	"state/view/SquaredCalculationLogic"
+], function(Controller, BaseController, SquaredCalculationLogic) {
 	"use strict";
 
-	return BaseController.extend("view.Main", {
+	return BaseController.extend("view.Main2", {
 
 		// /////////////////////////////////////////////////////////////////////////////
 		// /// Member
 		// /////////////////////////////////////////////////////////////////////////////
-
+		
 		// /////////////////////////////////////////////////////////////////////////////
 		// /// Initialization
 		// /////////////////////////////////////////////////////////////////////////////
@@ -29,17 +27,34 @@ sap.ui.define([
 			}.bind(this), 200);
 		},
 
+		//use specialized calculation logic
+		_createCalculationLogic: function () {
+			return SquaredCaclulationLogic.create(this);
+		},
+
 		// /////////////////////////////////////////////////////////////////////////////
 		// /// StateMachine Events
 		// /////////////////////////////////////////////////////////////////////////////
 
-		
-		
+		//TODO UGLY
+		//delete will directly delete without confirmation
+		onEnteredDeleteState: function(oEvent) {
+			return true;
+			
+		},
 
 		// /////////////////////////////////////////////////////////////////////////////
 		// /// Button EventHandler
 		// /////////////////////////////////////////////////////////////////////////////
 		
+		//overwritten EDIT button event handler, no error handling for this controller
+		onEditPressed : function(){
+			this.getView().setBusy(true);
+			setTimeout(function () {
+				this.getView().setBusy(false);
+				this._oMainViewState.fireTrigger(this._oMainViewState.getTriggers().Edit);
+			}.bind(this), 1000);
+		},
 		
 	});
 

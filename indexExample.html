@@ -15,16 +15,35 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
   <script>
     sap.ui.localResources("view");
-    var app = new sap.m.App({
-      initialPage: "idMain",
-    });
-    var page = sap.ui.view({
+    
+    var page1 = sap.ui.view({
       id: "idMain",
       viewName: "view.Main",
       type: sap.ui.core.mvc.ViewType.XML
     });
-    app.addPage(page);
-    app.placeAt("content");
+    var page2 = sap.ui.view({
+      id: "idMain2",
+      viewName: "view.Main2",
+      type: sap.ui.core.mvc.ViewType.XML
+    });
+    
+    var oIconTabBar = new sap.m.IconTabBar({
+        expanded: true,
+        expandable: false,
+        stretchContentHeight: true,
+        items: [
+            new sap.m.IconTabFilter({
+                text: "Main1",
+                content: page1
+            }),
+            new sap.m.IconTabFilter({
+                text: "Main2",
+                content: page2
+            })
+        ]
+    });
+    oIconTabBar.addStyleClass("sapUiNoContentPadding");
+    oIconTabBar.placeAt("content");
   </script>
 
 </head>

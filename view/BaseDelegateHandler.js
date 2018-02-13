@@ -39,7 +39,7 @@ sap.ui.define(['jquery.sap.global',
         if (fFunction && typeof fFunction === "function"){
             return true;
         }
-        throw("not a function");
+        throw("function not found");
     };
 
     return BaseDelegateHandler;

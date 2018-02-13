@@ -54,7 +54,8 @@ sap.ui.define(['jquery.sap.global',
         //INFO could be injrected state config
         return [
             "byId",
-            "onEnteredEditState"
+            "onEnteredEditState",
+            "onEnteredDeleteState"
         ]
     };
     
@@ -136,7 +137,7 @@ sap.ui.define(['jquery.sap.global',
     };
 
     MainViewState.prototype.onEnteredEditState = function (oEvent) {
-        if(this._oControllerDelegate.onEnteredEditState()){
+        if(this._oControllerDelegate.onEnteredEditState(oEvent)){
             return;
         }
         
@@ -158,6 +159,9 @@ sap.ui.define(['jquery.sap.global',
     };
 
     MainViewState.prototype.onEnteredDeleteState = function (oEvent) {
+        if(this._oControllerDelegate.onEnteredDeleteState(oEvent)){
+            return;
+        }
         console.log("delete state");
         this._oControllerDelegate.byId("idStateText").setText(this._oStateMachine.getState());
         
