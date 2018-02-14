@@ -54,8 +54,7 @@ sap.ui.define(['jquery.sap.global',
         //INFO could be injrected state config
         return [
             "byId",
-            "onEnteredEditState",
-            "onEnteredDeleteState"
+            "onEnteredEditState"
         ]
     };
     
@@ -195,7 +194,6 @@ sap.ui.define(['jquery.sap.global',
         console.log("objectDeleted state");
         this._oControllerDelegate.byId("idStateText").setText(this._oStateMachine.getState());
         
-        this._oControllerDelegate.byId("idInput").setVisible(false);
         this._oControllerDelegate.byId("idEditButton").setVisible(false);
         this._oControllerDelegate.byId("idDeleteButton").setVisible(false);
         this._oControllerDelegate.byId("idCancelButton").setVisible(false);

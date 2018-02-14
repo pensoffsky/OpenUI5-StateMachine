@@ -1,8 +1,9 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"state/view/BaseController",
-	"state/view/SquaredCalculationLogic"
-], function(Controller, BaseController, SquaredCalculationLogic) {
+	"state/view/SquaredCalculationLogic",
+	"state/view/Main2ViewState"
+], function(Controller, BaseController, SquaredCalculationLogic, Main2ViewState) {
 	"use strict";
 
 	return BaseController.extend("view.Main2", {
@@ -31,12 +32,18 @@ sap.ui.define([
 		_createCalculationLogic: function () {
 			return SquaredCaclulationLogic.create(this);
 		},
+		
+		//use specialized calculation logic
+		_createViewState: function () {
+			return Main2ViewState.create(this);
+		},
 
 		// /////////////////////////////////////////////////////////////////////////////
 		// /// StateMachine Events
 		// /////////////////////////////////////////////////////////////////////////////
 
-		//TODO UGLY
+		//TODO UGLY, this has to be available in the basecontroller because it is checked in BaseDelegateHandler
+		//TODO how to overwrite just a part of the behaviour?
 		//delete will directly delete without confirmation
 		onEnteredDeleteState: function(oEvent) {
 			return true;
