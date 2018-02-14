@@ -9,7 +9,8 @@
         id="sap-ui-bootstrap" 
         data-sap-ui-libs="sap.m" 
         data-sap-ui-resourceroots='{"view": "./", "state" : "../"}' 
-        data-sap-ui-theme="sap_bluecrystal">
+        data-sap-ui-theme="sap_bluecrystal"
+        data-sap-ui-xx-bindingSyntax="complex">
   </script>
 
 	<link rel="stylesheet" type="text/css" href="style.css">
@@ -26,6 +27,11 @@
       viewName: "view.Main2",
       type: sap.ui.core.mvc.ViewType.XML
     });
+    var page3 = sap.ui.view({
+      id: "idMain3",
+      viewName: "view.Main3",
+      type: sap.ui.core.mvc.ViewType.XML
+    });
     
     var oIconTabBar = new sap.m.IconTabBar({
         expanded: true,
@@ -39,6 +45,10 @@
             new sap.m.IconTabFilter({
                 text: "Main2",
                 content: page2
+            }),
+            new sap.m.IconTabFilter({
+                text: "Main3",
+                content: page3
             })
         ]
     });

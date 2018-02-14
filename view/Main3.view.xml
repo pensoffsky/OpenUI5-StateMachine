@@ -1,0 +1,37 @@
+<core:View xmlns:core="sap.ui.core" 
+	xmlns:mvc="sap.ui.core.mvc" 
+	xmlns="sap.m"
+	controllerName="view.Main3" 
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:l="sap.ui.layout"
+	xmlns:custom="view"
+	busyIndicatorDelay="0"
+	height="100%"
+	>
+	<Page title="Main3">
+		<content>
+			<VBox>
+				<Title text="{viewModel>/sState}" class="sapUiMediumMargin"/>
+				
+				<HBox visible="{= ${viewModel>/sState} === 'EditState' }">
+					<Input class="sapUiMediumMarginBegin"
+							value="{viewModel>/sInput1Value}"
+							/>
+					<Text text=" + "/>
+					<Input class="sapUiMediumMarginBegin"
+							value="{viewModel>/sInput2Value}"
+							/>
+				</HBox>
+				
+			</VBox>
+		</content>
+		<footer>
+			<Toolbar>
+				<Button text="Edit" press="onEditPressed" visible="{= ${viewModel>/sState} === 'DisplayState' }" />
+				<Button text="Delete" press="onDeletePressed" visible="{= ${viewModel>/sState} === 'DisplayState' }"/>
+				<Button text="Cancel" press="onCancelPressed" visible="{= ${viewModel>/sState} === 'EditState' }"/>
+				<Button text="Save" press="onSavePressed" visible="{= ${viewModel>/sState} === 'EditState' }"/>
+			</Toolbar>
+		</footer>
+	</Page>
+</core:View>
