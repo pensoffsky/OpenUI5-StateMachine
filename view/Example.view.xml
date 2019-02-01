@@ -12,20 +12,12 @@
 	<Page title="Main3">
 		<content>
 			<VBox>
-				<Title text="{viewModel>/sState}" class="sapUiMediumMargin"/>
-				
-				<VBox visible="{= ${viewModel>/sState} === 'EditState' }">
-					<Input class="sapUiMediumMarginBegin"
-							value="{viewModel>/sInput1Value}"
-							/>
-					<Text text=" + "/>
-					<Input class="sapUiMediumMarginBegin"
-							value="{viewModel>/sInput2Value}"
-							/>
-				</VBox>
-
-				<Button text="Reload" press=".onViewEvent('onReloadPressed', $event)" visible="{viewModel>/bReloadButtonVisible}" />
-				
+				<Title text="{viewModel>/sState}" 
+						class="sapUiMediumMargin"/>
+	
+				<Button text="Reload" 
+						press=".onViewEvent('onReloadPressed', $event)" 
+						visible="{viewModel>/bReloadButtonVisible}" />			
 			</VBox>
 		</content>
 		<footer>

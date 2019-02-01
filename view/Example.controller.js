@@ -13,36 +13,7 @@ sap.ui.define([
 
 		// /////////////////////////////////////////////////////////////////////////////
 		// /// Member
-		// /////////////////////////////////////////////////////////////////////////////
-		
-   		/*	
-                   SAVE
-              +-----------------+
-              |                 |
-              v      EDIT       |
-          +-------+ --------> +----+
-          |Display|           |Edit|
-          +-------+ <-------- +----+
-               |       CANCEL
-               |
-             DELETE
-               v
-          +-------+
-          |Deleted|
-          +-------+
-    	*/
-
-		_mStates: {
-			DisplayState: "DisplayState",
-			EditState: "EditState",
-			ObjectDeletedState: "ObjectDeletedState"
-		},
-		_mTriggers: {
-			Edit: "Edit",
-			Cancel: "Cancel",
-			Delete: "Delete",
-			Save: "Save"
-		},
+		// /////////////////////////////////////////////////////////////////////////////   		
 
 		_oStateMachine: null,
 		_oViewModel: null,
@@ -64,10 +35,12 @@ sap.ui.define([
 			}
 
 			this._oViewModel = new JSONModel({
+				sState: null,
 				bEditButtonVisible: false,
 				bDeleteButtonVisible: false,
 				bCancelButtonVisible: false,
-				bSaveButtonVisible: false
+				bSaveButtonVisible: false,
+				bReloadButtonVisible: false
 			});
 			this.getView().setModel(this._oViewModel, "viewModel");
 
@@ -81,29 +54,58 @@ sap.ui.define([
 			
 			//start the machine in DisplayState state, fire initial state event
 			//could also be called on router handleRouteMatched handler
-			this._oStateMachine.setInitialState(this._mStates.DisplayState, true /*bFireInitialStateEvent*/);
+			this._oStateMachine.setInitialState(this._oStateMachine.getStates().DisplayState, true /*bFireInitialStateEvent*/);
 		},
 
 
 		_configureStateMachine: function() {
-			var oStateMachine = new StateMachine(this._mStates, this._mTriggers);
+			/*	
+					SAVE
+				+-----------------+
+				|                 |
+				v      EDIT       |
+			+-------+ --------> +----+
+			|Display|           |Edit|
+			+-------+ <-------- +----+
+				|       CANCEL
+				|
+				DELETE
+				v
+			+-------+
+			|Deleted|
+			+-------+
+			*/
+
+			var mStates = {
+				DisplayState: "DisplayState",
+				EditState: "EditState",
+				ObjectDeletedState: "ObjectDeletedState"
+			};
+			var mTriggers = {
+				Edit: "Edit",
+				Cancel: "Cancel",
+				Delete: "Delete",
+				Save: "Save"
+			};
+
+			var oStateMachine = new StateMachine(mStates, mTriggers);
 
 			//DisplayState + "Edit" ==> EditState
         	//DisplayState + "Delete" ==> ObjectDeletedState
-			oStateMachine.configure(this._mStates.DisplayState)
+			oStateMachine.configure(mStates.DisplayState)
 				.onEntry(this.onEnteredDisplayState.bind(this))
-				.permit(this._mTriggers.Edit, this._mStates.EditState)
-				.permit(this._mTriggers.Delete, this._mStates.ObjectDeletedState);
+				.permit(mTriggers.Edit, mStates.EditState)
+				.permit(mTriggers.Delete, mStates.ObjectDeletedState);
 
 			//EditState + "Cancel" ==> DisplayState
-			oStateMachine.configure(this._mStates.EditState)
+			oStateMachine.configure(mStates.EditState)
 				.onEntry(this.onEnteredEditState.bind(this))
 				.beforeExit(this.onBeforeExitEditState.bind(this))
-				.permit(this._mTriggers.Cancel, this._mStates.DisplayState)
-				.permit(this._mTriggers.Save, this._mStates.DisplayState);
+				.permit(mTriggers.Cancel, mStates.DisplayState)
+				.permit(mTriggers.Save, mStates.DisplayState);
 
 			//ObjectDeletedState
-			oStateMachine.configure(this._mStates.ObjectDeletedState)
+			oStateMachine.configure(mStates.ObjectDeletedState)
 				.onEntry(this.onEnteredObjectDeleteState.bind(this));
 
 			return oStateMachine;

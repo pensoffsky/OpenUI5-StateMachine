@@ -17,6 +17,7 @@ sap.ui.define(["sap/ui/base/Object"],
     // //////////////////////////////////////////////////////
 
     ExampleDisplayState.prototype.enterState = function (oEvent) {
+        this._oViewModel.setProperty("/sState", "Display");
         this._oViewModel.setProperty("/bEditButtonVisible", true);
         this._oViewModel.setProperty("/bDeleteButtonVisible", true);
         this._oViewModel.setProperty("/bCancelButtonVisible", false);
