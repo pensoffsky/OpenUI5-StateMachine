@@ -117,6 +117,27 @@
 			);
 		});
 
+		QUnit.test("State change Eventhandler", 2, function(assert) {
+			this._oStateMachine.onStateChanged(function(oStateConfig){
+				assert.ok(true, "onStateChanged called");
+				assert.ok(oStateConfig.getState() === this._oStateMachine.getStates().Playing, "correct stateConfig state returned");
+			}.bind(this));
+
+			this._oStateMachine.fire(this._oStateMachine.getTriggers().Play);
+		});
+
+		QUnit.test("Set data to state and retrieve", 1, function(assert) {
+			var sSomeData = "someData";
+
+			this._oStateMachine.configure(this._oStateMachine.getStates().Playing)
+				.setData(sSomeData);
+
+			this._oStateMachine.onStateChanged(function(oStateConfig){				
+				assert.ok(oStateConfig.getData() === sSomeData, "correct stateConfig data returned");
+			}.bind(this));
+
+			this._oStateMachine.fire(this._oStateMachine.getTriggers().Play);
+		});
 
 		</script>
 	</head>

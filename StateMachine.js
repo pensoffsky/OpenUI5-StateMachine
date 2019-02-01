@@ -22,8 +22,6 @@ sap.ui.define(['jquery.sap.global',
 // /// Public functions
 // //////////////////////////////////////////////////////
 
-    
-
     /**
      * configure the state of the machine.
      * @param  {[type]} sState [description]
@@ -67,6 +65,7 @@ sap.ui.define(['jquery.sap.global',
       
       this._sCurrentState = sNextState;
       oNextStateConfig.executeOnEntry(oEvent);
+      this._executeOnStateChanged(oNextStateConfig);
     };
 
     StateMachine.prototype.setInitialState = function(sState, bFireInitialStateEvent) {
@@ -76,6 +75,7 @@ sap.ui.define(['jquery.sap.global',
       if(bFireInitialStateEvent === true){
           var oCurrentStateConfig = this._oStateConfigs[this._sCurrentState];
           oCurrentStateConfig.executeOnEntry();
+          this._executeOnStateChanged(oCurrentStateConfig);
       }
     };
     
@@ -85,9 +85,20 @@ sap.ui.define(['jquery.sap.global',
       if(bFireStateEvent === true){
           var oCurrentStateConfig = this._oStateConfigs[this._sCurrentState];
           oCurrentStateConfig.executeOnEntry();
+          this._executeOnStateChanged(oCurrentStateConfig);
       }
     };
-    
+
+    /**
+     * setup a callback that is called when the state of the machine changed
+     * @param  {function} fnCallback   callback to call when a new state is active
+     * @return {object}          the stateMachine object for chaining
+     */
+    StateMachine.prototype.onStateChanged = function(fnCallback) {
+      this._fnOnStateChanged = fnCallback;
+      return this;
+    };
+
     // //////////////////////////////////////////////////////
     // /// Setter & Getter
     // //////////////////////////////////////////////////////
@@ -119,6 +130,12 @@ sap.ui.define(['jquery.sap.global',
 // //////////////////////////////////////////////////////
 // /// Private functions
 // //////////////////////////////////////////////////////
+
+    StateMachine.prototype._executeOnStateChanged = function (oCurrentStateConfig) {
+      if(this._fnOnStateChanged) {
+        this._fnOnStateChanged(oCurrentStateConfig);
+      }
+    };
 
     return StateMachine;
 

@@ -5,11 +5,13 @@ sap.ui.define(['jquery.sap.global',
 
     var StateConfig = Object.extend("StateConfig", {
 
-      constructor : function() {
+      constructor : function(sState) {
         Object.apply(this, arguments);
         this._oPermissions = {};
         this._fnOnEntry = null;
         this._fnBeforeExit = null;
+        this._vData = null;
+        this._sState = sState;
         }
     });
 
@@ -61,7 +63,27 @@ sap.ui.define(['jquery.sap.global',
       return sState;
     };
 
+    /**
+     * store any kind of data on a state config. 
+     */
+    StateConfig.prototype.setData = function(vData) {
+      this._vData = vData;
+      return this;
+    };
 
+    /**
+     * returns data stored with setData
+     */
+    StateConfig.prototype.getData = function() {      
+      return this._vData;
+    };
+
+/**
+     * returns the state of this stateConfig
+     */
+    StateConfig.prototype.getState = function() {      
+      return this._sState;
+    };
 
 // //////////////////////////////////////////////////////
 // /// Private functions

@@ -11,19 +11,18 @@ sap.ui.define([
 
 	return Controller.extend("view.Example", {
 
+		//TODO destroy machine on exit
+
 		// /////////////////////////////////////////////////////////////////////////////
-		// /// Member
+		// /// Member (for documentation purposes)
 		// /////////////////////////////////////////////////////////////////////////////   		
 
-		_oStateMachine: null,
 		_oViewModel: null,
-		
-		_oCurrentState: null,
-		_oDisplayState: null,
-		_oEditState: null,
-		_oDeletedState: null,		
-
 		_oUtil: null,
+
+		_oStateMachine: null,
+
+		_oCurrentState: null,
 
 		// /////////////////////////////////////////////////////////////////////////////
 		// /// Initialization
@@ -47,10 +46,6 @@ sap.ui.define([
 			this._oUtil = new ExampleUtil();
 
 			this._oStateMachine = this._configureStateMachine();
-
-			this._oDisplayState = new ExampleDisplayState(this,  this._oUtil, this._oViewModel, this._oStateMachine);
-			this._oEditState = new ExampleEditState(this, this._oUtil, this._oViewModel, this._oStateMachine);			
-			this._oDeletedState = new ExampleDeletedState(this, this._oUtil, this._oViewModel, this._oStateMachine);
 			
 			//start the machine in DisplayState state, fire initial state event
 			//could also be called on router handleRouteMatched handler
@@ -93,20 +88,25 @@ sap.ui.define([
 			//DisplayState + "Edit" ==> EditState
         	//DisplayState + "Delete" ==> ObjectDeletedState
 			oStateMachine.configure(mStates.DisplayState)
-				.onEntry(this.onEnteredDisplayState.bind(this))
+				//.onEntry(this.onEnteredDisplayState.bind(this))
 				.permit(mTriggers.Edit, mStates.EditState)
-				.permit(mTriggers.Delete, mStates.ObjectDeletedState);
+				.permit(mTriggers.Delete, mStates.ObjectDeletedState)
+				.setData(new ExampleDisplayState(this,  this._oUtil, this._oViewModel, oStateMachine));
 
 			//EditState + "Cancel" ==> DisplayState
 			oStateMachine.configure(mStates.EditState)
-				.onEntry(this.onEnteredEditState.bind(this))
-				.beforeExit(this.onBeforeExitEditState.bind(this))
+				//.onEntry(this.onEnteredEditState.bind(this))
+				//.beforeExit(this.onBeforeExitEditState.bind(this))
 				.permit(mTriggers.Cancel, mStates.DisplayState)
-				.permit(mTriggers.Save, mStates.DisplayState);
+				.permit(mTriggers.Save, mStates.DisplayState)
+				.setData(new ExampleEditState(this, this._oUtil, this._oViewModel, oStateMachine));
 
 			//ObjectDeletedState
 			oStateMachine.configure(mStates.ObjectDeletedState)
-				.onEntry(this.onEnteredObjectDeleteState.bind(this));
+				 //.onEntry(this.onEnteredObjectDeleteState.bind(this))
+				.setData(new ExampleDeletedState(this, this._oUtil, this._oViewModel, this._oStateMachine));
+
+			oStateMachine.onStateChanged(this.onStateChanged.bind(this));
 
 			return oStateMachine;
 		},
@@ -115,27 +115,28 @@ sap.ui.define([
 		// /// StateMachine EventHandler
 		// /////////////////////////////////////////////////////////////////////////////
 
-		onEnteredDisplayState: function (oEvent) {
-			this._oViewModel.setProperty("/sState", this._oStateMachine.getState());
-			this._oCurrentState = this._oDisplayState;
+		onStateChanged: function(oStateConfig){
+			//we stored a ref to Example*State in the stateMachine state config
+			//retrieve it here and use as the current ui state
+			this._oCurrentState = oStateConfig.getData();
 			this._oCurrentState.enterState();
 		},
 
-		onEnteredEditState: function (oEvent) {
-			this._oViewModel.setProperty("/sState", this._oStateMachine.getState());
-			this._oCurrentState = this._oEditState;
-			this._oCurrentState.enterState();
-		},
-
-		onEnteredObjectDeleteState: function (oEvent) {
-			this._oViewModel.setProperty("/sState", this._oStateMachine.getState());
-			this._oCurrentState = this._oDeletedState;
-			this._oCurrentState.enterState();
-		},
-
-		onBeforeExitEditState: function(oEvent) {
+		// onEnteredDisplayState: function (oEvent) {
 			
-		},
+		// },
+
+		// onEnteredEditState: function (oEvent) {
+			
+		// },
+
+		// onEnteredObjectDeleteState: function (oEvent) {
+			
+		// },
+
+		// onBeforeExitEditState: function(oEvent) {
+			
+		// },
 
 		// /////////////////////////////////////////////////////////////////////////////
 		// /// View EventHandler
