@@ -23,15 +23,17 @@
 							value="{viewModel>/sInput2Value}"
 							/>
 				</VBox>
+
+				<Button text="Reload" press=".onViewEvent('onReloadPressed', $event)" visible="{viewModel>/bReloadButtonVisible}" />
 				
 			</VBox>
 		</content>
 		<footer>
 			<Toolbar>
-				<Button text="Edit" press=".onViewEvent('onEditPressed', $event)" visible="{= ${viewModel>/sState} === 'DisplayState' }" />
-				<Button text="Delete" press=".onViewEvent('onDeletePressed', $event)" visible="{= ${viewModel>/sState} === 'DisplayState' }"/>
-				<Button text="Cancel" press=".onViewEvent('onCancelPressed', $event)" visible="{= ${viewModel>/sState} === 'EditState' }"/>
-				<Button text="Save" press=".onViewEvent('onSavePressed', $event)" visible="{= ${viewModel>/sState} === 'EditState' }"/>
+				<Button text="Edit" press=".onViewEvent('onEditPressed', $event)" visible="{viewModel>/bEditButtonVisible}" />
+				<Button text="Delete" press=".onViewEvent('onDeletePressed', $event)" visible="{viewModel>/bDeleteButtonVisible}"/>
+				<Button text="Cancel" press=".onViewEvent('onCancelPressed', $event)" visible="{viewModel>/bCancelButtonVisible}"/>
+				<Button text="Save" press=".onViewEvent('onSavePressed', $event)" visible="{viewModel>/bSaveButtonVisible}"/>
 			</Toolbar>
 		</footer>
 	</Page>

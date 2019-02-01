@@ -50,7 +50,7 @@ sap.ui.define([
 		_oCurrentState: null,
 		_oDisplayState: null,
 		_oEditState: null,
-		_oDeletedSate: null,		
+		_oDeletedState: null,		
 
 		_oUtil: null,
 
@@ -63,16 +63,21 @@ sap.ui.define([
 				Controller.prototype.onInit.apply(this, arguments);
 			}
 
-			this._oViewModel = new JSONModel();
+			this._oViewModel = new JSONModel({
+				bEditButtonVisible: false,
+				bDeleteButtonVisible: false,
+				bCancelButtonVisible: false,
+				bSaveButtonVisible: false
+			});
 			this.getView().setModel(this._oViewModel, "viewModel");
 
 			this._oUtil = new ExampleUtil();
 
 			this._oStateMachine = this._configureStateMachine();
 
-			this._oDisplayState = new ExampleDisplayState(this, this._oViewModel, this._oStateMachine);
-			this._oEditState = new ExampleEditState(this, this._oViewModel, this._oStateMachine);
-			this._oDeleteState = new ExampleDeletedState(this, this._oViewModel, this._oStateMachine);
+			this._oDisplayState = new ExampleDisplayState(this,  this._oUtil, this._oViewModel, this._oStateMachine);
+			this._oEditState = new ExampleEditState(this, this._oUtil, this._oViewModel, this._oStateMachine);			
+			this._oDeletedState = new ExampleDeletedState(this, this._oUtil, this._oViewModel, this._oStateMachine);
 			
 			//start the machine in DisplayState state, fire initial state event
 			//could also be called on router handleRouteMatched handler
@@ -111,16 +116,19 @@ sap.ui.define([
 		onEnteredDisplayState: function (oEvent) {
 			this._oViewModel.setProperty("/sState", this._oStateMachine.getState());
 			this._oCurrentState = this._oDisplayState;
+			this._oCurrentState.enterState();
 		},
 
 		onEnteredEditState: function (oEvent) {
 			this._oViewModel.setProperty("/sState", this._oStateMachine.getState());
 			this._oCurrentState = this._oEditState;
+			this._oCurrentState.enterState();
 		},
 
 		onEnteredObjectDeleteState: function (oEvent) {
 			this._oViewModel.setProperty("/sState", this._oStateMachine.getState());
-			this._oCurrentState = this._oDeletedSate;
+			this._oCurrentState = this._oDeletedState;
+			this._oCurrentState.enterState();
 		},
 
 		onBeforeExitEditState: function(oEvent) {

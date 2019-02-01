@@ -3,11 +3,8 @@ sap.ui.define(["sap/ui/base/Object"],
     "use strict";
 
     var ExampleUtil = Object.extend("ExampleUtil", {
-        constructor: function(oControllerDelegate, oViewModel, oStateMachine) {
-            Object.apply(this);
-            this._oControllerDelegate = oControllerDelegate;
-            this._oViewModel = oViewModel;
-            this._oStateMachine = oStateMachine;
+        constructor: function() {
+            Object.apply(this);            
           }
     });
 
@@ -15,11 +12,13 @@ sap.ui.define(["sap/ui/base/Object"],
     // /// Public functions
     // //////////////////////////////////////////////////////
 
-    ExampleUtil.prototype.onEditPressed = function (oEvent) {
-        this._oStateMachine.fire(this._oStateMachine.getTriggers().Edit);
-        // this._oViewModel.setProperty("/sState", this._oStateMachine.getState());
+    ExampleUtil.prototype.doStuff = function () {
+       console.log("doing stuff...");
     };
-    
+
+    ExampleUtil.prototype.reload = function () {
+        window.location.reload();
+    };
     
     // //////////////////////////////////////////////////////
     // /// Private functions

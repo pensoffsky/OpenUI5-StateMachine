@@ -3,8 +3,9 @@ sap.ui.define(["sap/ui/base/Object"],
     "use strict";
 
     var ExampleDisplayState = Object.extend("ExampleDisplayState", {
-        constructor: function(oControllerDelegate, oViewModel, oStateMachine) {
+        constructor: function(oControllerDelegate, oUtil, oViewModel, oStateMachine) {
             Object.apply(this);
+            this._oUtil = oUtil;
             this._oControllerDelegate = oControllerDelegate;
             this._oViewModel = oViewModel;
             this._oStateMachine = oStateMachine;
@@ -12,8 +13,16 @@ sap.ui.define(["sap/ui/base/Object"],
     });
 
     // //////////////////////////////////////////////////////
-    // /// EventHandler functions
+    // /// Public functions
     // //////////////////////////////////////////////////////
+
+    ExampleDisplayState.prototype.enterState = function (oEvent) {
+        this._oViewModel.setProperty("/bEditButtonVisible", true);
+        this._oViewModel.setProperty("/bDeleteButtonVisible", true);
+        this._oViewModel.setProperty("/bCancelButtonVisible", false);
+        this._oViewModel.setProperty("/bSaveButtonVisible", false);
+        this._oViewModel.setProperty("/bReloadButtonVisible", false);
+    }; 
 
     ExampleDisplayState.prototype.onEditPressed = function (oEvent) {
         this._oStateMachine.fire(this._oStateMachine.getTriggers().Edit);        
