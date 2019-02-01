@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv='Content-Type' content='text/html;charset=UTF-8' />
   <title>StateMachine Example</title>
-  <script src="https://sapui5.netweaver.ondemand.com/resources/sap-ui-core.js" 
+  <script src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js" 
         id="sap-ui-bootstrap" 
         data-sap-ui-libs="sap.m" 
         data-sap-ui-resourceroots='{"view": "./", "state" : "../"}' 
@@ -21,44 +21,7 @@
       id: "idExamplePage",
       viewName: "view.Example",
       type: sap.ui.core.mvc.ViewType.XML
-    });
-
-    var page1 = sap.ui.view({
-      id: "idMain",
-      viewName: "view.Main",
-      type: sap.ui.core.mvc.ViewType.XML
-    });
-    var page2 = sap.ui.view({
-      id: "idMain2",
-      viewName: "view.Main2",
-      type: sap.ui.core.mvc.ViewType.XML
-    });
-    var page3 = sap.ui.view({
-      id: "idMain3",
-      viewName: "view.Main3",
-      type: sap.ui.core.mvc.ViewType.XML
-    });
-    
-    var oIconTabBar = new sap.m.IconTabBar({
-        expanded: true,
-        expandable: false,
-        stretchContentHeight: true,
-        items: [
-            new sap.m.IconTabFilter({
-                text: "Main1",
-                content: page1
-            }),
-            new sap.m.IconTabFilter({
-                text: "Main2",
-                content: page2
-            }),
-            new sap.m.IconTabFilter({
-                text: "Main3",
-                content: page3
-            })
-        ]
-    });
-    oIconTabBar.addStyleClass("sapUiNoContentPadding");
+    });    
     
     pageExample.placeAt("content");
   </script>
