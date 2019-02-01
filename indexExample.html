@@ -17,6 +17,12 @@
   <script>
     sap.ui.localResources("view");
     
+    var pageExample = sap.ui.view({
+      id: "idExamplePage",
+      viewName: "view.Example",
+      type: sap.ui.core.mvc.ViewType.XML
+    });
+
     var page1 = sap.ui.view({
       id: "idMain",
       viewName: "view.Main",
@@ -53,7 +59,8 @@
         ]
     });
     oIconTabBar.addStyleClass("sapUiNoContentPadding");
-    oIconTabBar.placeAt("content");
+    
+    pageExample.placeAt("content");
   </script>
 
 </head>
