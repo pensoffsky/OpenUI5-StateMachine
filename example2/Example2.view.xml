@@ -1,0 +1,31 @@
+<core:View xmlns:core="sap.ui.core" 
+	xmlns:mvc="sap.ui.core.mvc" 
+	xmlns="sap.m"
+	controllerName="example2.Example2" 
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:l="sap.ui.layout"
+	xmlns:custom="view"
+	busyIndicatorDelay="0"
+	height="100%"
+	>
+	<Page>
+		<content>
+			<VBox>
+				<Title text="{viewModel>/sState}" 
+						class="sapUiMediumMargin"/>
+	
+				<Button text="Reload" 
+						press=".onViewEvent('onReloadPressed', $event)" 
+						visible="{viewModel>/bReloadButtonVisible}" />			
+			</VBox>
+		</content>
+		<footer>
+			<Toolbar>
+				<Button text="Edit" press=".onViewEvent('onEditPressed', $event)" visible="{viewModel>/bEditButtonVisible}" />
+				<Button text="Delete" press=".onViewEvent('onDeletePressed', $event)" visible="{viewModel>/bDeleteButtonVisible}"/>
+				<Button text="Cancel" press=".onViewEvent('onCancelPressed', $event)" visible="{viewModel>/bCancelButtonVisible}"/>
+				<Button text="Save" press=".onViewEvent('onSavePressed', $event)" visible="{viewModel>/bSaveButtonVisible}"/>
+			</Toolbar>
+		</footer>
+	</Page>
+</core:View>

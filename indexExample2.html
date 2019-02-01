@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv='Content-Type' content='text/html;charset=UTF-8' />
+  <title>StateMachine Example2</title>
+  <script src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js" 
+        id="sap-ui-bootstrap" 
+        data-sap-ui-libs="sap.m" 
+        data-sap-ui-resourceroots='{"example2": "./example2", "state" : "../"}' 
+        data-sap-ui-theme="sap_bluecrystal"
+        data-sap-ui-xx-bindingSyntax="complex">
+  </script>
+
+
+
+  <script>
+    sap.ui.getCore().attachInit(function () {
+    sap.ui.localResources("view");
+    
+    var pageExample2 = sap.ui.view({
+      id: "idExample2Page",
+      viewName: "example2.Example2",
+      type: sap.ui.core.mvc.ViewType.XML
+    });    
+
+      sap.ui.require([
+        "sap/m/Shell"
+      ], function (Shell) {
+        // initialize the UI component
+        new Shell({
+          app: pageExample2
+        }).placeAt("content");
+      });
+    });
+  </script>
+
+</head>
+
+<body class="sapUiBody" role="application">
+  <div id="content"></div>
+</body>
+
+</html>
