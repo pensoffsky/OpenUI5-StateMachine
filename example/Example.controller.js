@@ -1,15 +1,15 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	'sap/ui/model/json/JSONModel',
-	'state/StateMachine',
-	'state/view/ExampleDisplayState',
-	'state/view/ExampleEditState',
-	'state/view/ExampleDeletedState',
-	'state/view/ExampleUtil'
+	'state/stateMachine/StateMachine',
+	'state/example/ExampleDisplayState',
+	'state/example/ExampleEditState',
+	'state/example/ExampleDeletedState',
+	'state/example/ExampleUtil'
 ], function(Controller, JSONModel, StateMachine, ExampleDisplayState, ExampleEditState, ExampleDeletedState, ExampleUtil) {
 	"use strict";
 
-	return Controller.extend("view.Example", {
+	return Controller.extend("example.Example", {
 
 		//TODO destroy machine on exit
 

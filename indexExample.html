@@ -8,21 +8,32 @@
   <script src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js" 
         id="sap-ui-bootstrap" 
         data-sap-ui-libs="sap.m" 
-        data-sap-ui-resourceroots='{"view": "./", "state" : "../"}' 
+        data-sap-ui-resourceroots='{"example": "./example", "state" : "../"}' 
         data-sap-ui-theme="sap_bluecrystal"
         data-sap-ui-xx-bindingSyntax="complex">
   </script>
 
+
+
   <script>
+    sap.ui.getCore().attachInit(function () {
     sap.ui.localResources("view");
     
     var pageExample = sap.ui.view({
       id: "idExamplePage",
-      viewName: "view.Example",
+      viewName: "example.Example",
       type: sap.ui.core.mvc.ViewType.XML
     });    
-    
-    pageExample.placeAt("content");
+
+      sap.ui.require([
+        "sap/m/Shell"
+      ], function (Shell) {
+        // initialize the UI component
+        new Shell({
+          app: pageExample
+        }).placeAt("content");
+      });
+    });
   </script>
 
 </head>

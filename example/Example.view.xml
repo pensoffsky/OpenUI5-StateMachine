@@ -1,15 +1,14 @@
 <core:View xmlns:core="sap.ui.core" 
 	xmlns:mvc="sap.ui.core.mvc" 
 	xmlns="sap.m"
-	controllerName="view.Example" 
+	controllerName="example.Example" 
 	xmlns:html="http://www.w3.org/1999/xhtml"
 	xmlns:l="sap.ui.layout"
 	xmlns:custom="view"
 	busyIndicatorDelay="0"
-	height="500px"
-	width="500px"
+	height="100%"
 	>
-	<Page title="Main3">
+	<Page>
 		<content>
 			<VBox>
 				<Title text="{viewModel>/sState}" 
